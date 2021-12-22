@@ -1,0 +1,26 @@
+{
+  "name": "developerbotofficial",
+  "version": "1.0.0",
+  "description": "Developer bot for the official Wayv Developers server.",
+  "main": "./build/index.js",
+  "author": "Wayvshock",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "tsc -b",
+    "start": "npm run build && npm run node",
+    "node": "node /build/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.2",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "chalk": "4",
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0",
+    "glob": "^7.2.0",
+    "glob-promise": "^4.2.2"
+  }
+}
