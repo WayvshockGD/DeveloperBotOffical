@@ -3,6 +3,7 @@ import { Client, Collection, Message } from "discord.js";
 import { CommandMap, CommandModules } from "./commands/CommandCreator";
 import { Config } from "./Config";
 import { LoadCommands } from "./util/CommandLoader";
+import MessageUtil from "./util/MessageUtil";
 
 type LogTypes = "warn" | "error" | "info";
 
@@ -57,7 +58,16 @@ export class ClientContainer {
                 return;
             }
 
+            let module = container.modules.get(command.options.name);
+
+            if (!module) return;
+
             if (command.opts.dev === 1 && !Config.getEnv("OWNER").includes(message.author.id)) {
+                return;
+            }
+
+            if (command.opts.onlyForChannels?.length && !command.opts.onlyForChannels.includes(message.channel.id)) {
+                message.channel.send("Sending that command isn't allowed in this channel.");
                 return;
             }
 
@@ -65,10 +75,14 @@ export class ClientContainer {
 
             command.opts.create({ 
                 container, 
-                bot: client 
+                bot: client,
+                data: module.data
             }, { 
                 args, 
-                message,
+                message: {
+                    data: message,
+                    util: new MessageUtil(message)
+                },
                 commands: container.commands,
                 modules: container.modules
             });

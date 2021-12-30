@@ -10,7 +10,7 @@ export = Command({
 
         command.forEach((item) => commandMap.push(item.opts.name));
 
-        message.channel.send({
+        message.util.create({
             embeds: [{
                 description: `\`${command.size}\` command(s) available, \`${modules.size}\` modules count`,
                 fields: [{

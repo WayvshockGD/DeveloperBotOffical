@@ -9,11 +9,8 @@ export function LoadCommands(container: ClientContainer) {
             let module = require(`..${sliced}`);
 
             if (!checkCommand(module)) {
-                if (!!module.Command) {
-                    container.modules.set(module.Command.name, module.Command);
-                }  else {
-                    container.commands.set(module.opts.name, module);
-                }
+                container.commands.set(module.opts.name, module);
+                container.modules.set(module.options.name, module);
             }
         }
     });
@@ -21,6 +18,8 @@ export function LoadCommands(container: ClientContainer) {
 
 function checkCommand(c: any) {
     if (!!c.createCommand) {
+        return true;
+    } else if (!!c.Command) {
         return true;
     }
 }
